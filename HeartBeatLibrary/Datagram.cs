@@ -22,7 +22,12 @@ namespace HeartBeatLibrary
         public static Datagram Parse(string value)
         {
             string[] values = value.Split(';');
-            return new Datagram(int.Parse(values[0]), DateTime.Parse(values[1]));
+            if (values.Length < 2) return null;
+            int priority;
+            DateTime sendDateTime;
+            if (int.TryParse(values[0], out priority) && DateTime.TryParse(values[1], out sendDateTime))
+                return new Datagram(priority, sendDateTime);
+            return null;
         }
     }
 }
