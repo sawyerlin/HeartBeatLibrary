@@ -11,10 +11,9 @@ namespace Test3
         {
             List<Remote> remotes = new List<Remote>
                 {
-                    new Remote("192.168.102.118", 8010),
-                    new Remote("192.168.102.118", 8011)
+                    new Remote("192.168.102.118", 8013)
                 };
-            HeartBeat heartBeat = new HeartBeat(remotes, "192.168.102.118", 8012, 2);
+            HeartBeat heartBeat = new HeartBeat(remotes, "192.168.102.118", 8012, 0);
 
             while (true)
             {

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>HeartBeatLibrary</id>
+    <version>1.0.1</version>
+    <authors>slin</authors>
+    <owners>slin</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>See heart beat in Wiki</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>C#, .net framework 3.5</tags>
+    <dependencies />
+  </metadata>
+  <files>
+    <file src="..\HeartBeatLibrary\bin\Release\*.dll" target="lib\net35" />
+  </files>
+</package>

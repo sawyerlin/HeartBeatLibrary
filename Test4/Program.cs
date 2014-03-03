@@ -1,10 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using HeartBeatLibrary;
 
-namespace Test2
+namespace Test4
 {
     class Program
     {
@@ -12,15 +11,15 @@ namespace Test2
         {
             List<Remote> remotes = new List<Remote>
                 {
-                    new Remote("192.168.102.118", 8010)
+                    new Remote("192.168.102.118", 8012)
                 };
-            HeartBeat heartBeat = new HeartBeat(remotes, "192.168.102.118", 8011, 1);
+            HeartBeat heartBeat = new HeartBeat(remotes, "192.168.102.118", 8013, 1);
 
             while (true)
             {
                 if (heartBeat.IsMaster)
                 {
-                    Console.WriteLine("8011 is Master");
+                    Console.WriteLine("8013 is Master");
                     Thread.Sleep(2000);
                 }
             }

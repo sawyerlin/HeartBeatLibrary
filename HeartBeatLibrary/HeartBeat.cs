@@ -12,6 +12,7 @@ namespace HeartBeatLibrary
         private readonly List<Remote> _remotes;
         private readonly UdpClient _client;
         private readonly int _priority;
+        private readonly int _waitSeconds;
         private DateTime _startDateTime;
 
         public bool IsMaster
@@ -29,13 +30,18 @@ namespace HeartBeatLibrary
                         isAlone = false;
                         if (remote.Data.Priority < _priority)
                             isPriority = false;
+                        else
+                            Console.WriteLine(remote);
                     }
                 }
 
                 if (isAlone)
                 {
-                    if (DateTime.Now - _startDateTime >= TimeSpan.FromSeconds(10))
+                    if (DateTime.Now - _startDateTime >= TimeSpan.FromSeconds(_waitSeconds))
+                    {
                         isMaster = true;
+                        Console.WriteLine("Is Alone");
+                    }
                 }
                 else
                 {
@@ -48,16 +54,18 @@ namespace HeartBeatLibrary
             }
         }
 
-        public HeartBeat(List<Remote> remotes, string address, int port, int priority)
+        public HeartBeat(List<Remote> remotes, string address, int port, int priority, int waitSeconds = 20)
         {
             _remotes = remotes;
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(address), port);
             _client = new UdpClient(endPoint);
             _priority = priority;
+            _waitSeconds = waitSeconds;
             Thread threadSend = new Thread(BeatSend),
                 threadReceive = new Thread(BeatReceive);
             threadSend.Start();
             threadReceive.Start();
+
             _startDateTime = DateTime.Now;
         }
 
@@ -72,23 +80,25 @@ namespace HeartBeatLibrary
                     IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(remote.Address), remote.Port);
                     _client.Send(sData, sData.Length, endPoint);
                 }
+                Thread.Sleep(500);
             }
         }
 
         private void BeatReceive()
         {
-            IPEndPoint endPoint = null;
+            IPEndPoint sEndPoint = null;
             while (true)
             {
                 try
                 {
-                    byte[] rData = _client.Receive(ref endPoint);
+                    byte[] rData = _client.Receive(ref sEndPoint);
                     string rValue = Encoding.UTF8.GetString(rData);
                     foreach (var remote in _remotes)
                     {
-                        if (remote.Address == endPoint.Address.ToString() && remote.Port == endPoint.Port)
+                        if (remote.Address == sEndPoint.Address.ToString() && remote.Port == sEndPoint.Port)
                             remote.Data = Datagram.Parse(rValue);
                     }
+                    Thread.Sleep(500);
                 }
                 catch (Exception)
                 {

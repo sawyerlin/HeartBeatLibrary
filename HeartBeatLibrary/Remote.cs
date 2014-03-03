@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace HeartBeatLibrary
+﻿namespace HeartBeatLibrary
 {
     public class Remote
     {
@@ -12,6 +10,12 @@ namespace HeartBeatLibrary
         {
             Address = address;
             Port = port;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Address: {0}, Port: {1}, Priority: {2}, DateTime: {3}", Address, Port, Data.Priority,
+                                 Data.SendDateTime);
         }
     }
 }
